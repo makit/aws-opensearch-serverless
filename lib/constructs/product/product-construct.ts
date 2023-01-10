@@ -35,45 +35,6 @@ export default class ProductConstruct extends Construct {
     const search = restApi.root.addResource('search');
     search.addMethod('GET');
 
-    // Ref: https://serverlessland.com/patterns/apigw-dynamodb-cdk
-    // const restApi = new apigateway.RestApi(this, 'ApiDynamoRestApi')
-    // const resource = restApi.root.addResource('{id}')
-
-    // Allow the RestApi to access DynamoDb by assigning this role to the integration
-    // const integrationRole = new iam.Role(this, 'IntegrationRole', {
-    //   assumedBy: new iam.ServicePrincipal('apigateway.amazonaws.com'),
-    // })
-    // this.productTable.grantReadData(integrationRole)
-
-    // GET Integration with DynamoDb
-    // const dynamoQueryIntegration = new apigateway.AwsIntegration({
-    //   service: 'dynamodb',
-    //   action: 'Query',
-    //   options: {
-    //     passthroughBehavior: apigateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
-    //     credentialsRole: integrationRole,
-    //     requestParameters: {
-    //       'integration.request.path.id': 'method.request.path.id'
-    //     },
-    //     requestTemplates: {
-    //       'application/json': JSON.stringify({
-    //           'TableName': this.productTable.tableName,
-    //           'KeyConditionExpression': 'productId = :v1',
-    //           'ExpressionAttributeValues': {
-    //               ':v1': {'N': "$input.params('id')"}
-    //           }
-    //       }),
-    //     },
-    //     integrationResponses: [{ statusCode: '200' }],
-    //   }
-    // })
-    // resource.addMethod('GET', dynamoQueryIntegration, {
-    //   methodResponses: [{ statusCode: '200' }],
-    //   requestParameters: {
-    //     'method.request.path.id': true
-    //   }
-    // });
-
     new cdk.CfnOutput(this, 'ProductCatalogueRestApi', {
       value: restApi.url,
     });
